@@ -10,6 +10,12 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, onOpenContact }) => {
   const isCombo = product.category.toLowerCase().includes('combo');
+  
+  // Calculate discount dynamically if not provided
+  const discount = product.discountPercentage || 
+    (product.originalPrice && product.originalPrice > product.price 
+      ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
+      : 0);
 
   return (
     <div 
@@ -35,9 +41,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, onOpenConta
                     {product.tag}
                 </div>
             )}
-            {product.discountPercentage && (
+            {discount > 0 && (
                 <div className={`absolute top-3 ${isCombo ? 'right-auto left-0 top-10' : 'right-3'} bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-md z-10`}>
-                    -{product.discountPercentage}%
+                    -{discount}%
                 </div>
             )}
             {/* Hover Overlay */}

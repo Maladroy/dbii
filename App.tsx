@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FlashSale from './components/FlashSale';
@@ -11,12 +11,25 @@ import StoryModal from './components/StoryModal';
 import ContactModal from './components/ContactModal';
 import AllProductsPage from './components/AllProductsPage';
 import { Product } from './types';
+import { PRODUCTS } from './constants';
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'home' | 'all-products'>('home');
+
+  // Deep linking: Check URL for product ID on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('product');
+    if (productId) {
+      const found = PRODUCTS.find(p => p.id === productId);
+      if (found) {
+        setSelectedProduct(found);
+      }
+    }
+  }, []);
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);

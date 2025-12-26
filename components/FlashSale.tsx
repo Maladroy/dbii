@@ -140,7 +140,7 @@ const FlashSale: React.FC<FlashSaleProps> = ({ onProductClick }) => {
                 >
                     {product.discountPercentage && (
                         <div className="absolute top-2 right-2 bg-yellow-400 text-red-700 text-xs font-bold px-2 py-1 rounded-md z-10 shadow-sm animate-bounce">
-                            Giảm {product.discountPercentage}%
+                            -{product.discountPercentage}%
                         </div>
                     )}
                     <div className="relative aspect-square overflow-hidden bg-gray-100">
