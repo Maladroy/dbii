@@ -24,11 +24,26 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - left) / width) * 100;
-    const y = ((e.clientY - top) / height) * 100;
+    
+    // Normalize coordinates (0 to 1)
+    let x = (e.clientX - left) / width;
+    let y = (e.clientY - top) / height;
+
+    // Add a buffer so user sees the edge of the image before the cursor hits the edge of the container.
+    // This prevents accidental mouseleave and makes corner viewing easier.
+    // 0.15 = 15% buffer zone at edges
+    const buffer = 0.15; 
+    
+    // Map [buffer, 1-buffer] input range to [0, 1] output range
+    x = (x - buffer) / (1 - 2 * buffer);
+    y = (y - buffer) / (1 - 2 * buffer);
+
+    // Clamp between 0 and 100%
+    const xPercent = Math.max(0, Math.min(1, x)) * 100;
+    const yPercent = Math.max(0, Math.min(1, y)) * 100;
 
     setZoomStyle({
-      transformOrigin: `${x}% ${y}%`,
+      transformOrigin: `${xPercent}% ${yPercent}%`,
       transform: 'scale(2)', // Zoom level
     });
   };
@@ -101,7 +116,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product, onClos
         <div className="w-full md:w-1/2 bg-gray-50 p-6 flex flex-col justify-center relative">
             {/* Main Image Container */}
             <div 
-                className="aspect-square rounded-xl overflow-hidden bg-white shadow-sm mb-4 relative group cursor-zoom-in"
+                className="aspect-square rounded-xl overflow-hidden bg-white shadow-sm mb-4 relative group cursor-crosshair"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

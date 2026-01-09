@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
             <p>&copy; 2024 D-Bii. All rights reserved.</p>
             <div className="flex items-center gap-4 mt-4 md:mt-0">
-                <span>Thiết kế bởi Senior Frontend Engineer</span>
+                <span>Thiết kế bởi D-Bii</span>
             </div>
         </div>
       </div>

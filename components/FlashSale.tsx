@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Eye, Zap } from 'lucide-react';
+import { ArrowRight, Eye, Zap, Timer } from 'lucide-react';
 import { PRODUCTS } from '../constants';
 import { Product } from '../types';
 
@@ -13,6 +13,20 @@ interface EventData {
 }
 
 const STORAGE_KEY = 'dbii_flashsale_event_v3_factual';
+
+const TimeBox = ({ value, label, isSeconds = false }: { value: number, label: string, isSeconds?: boolean }) => (
+    <div className="bg-black/30 backdrop-blur-md border border-white/20 rounded-xl p-2 min-w-[3.5rem] md:min-w-[4rem] flex flex-col items-center shadow-lg relative overflow-hidden group hover:border-white/40 transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent"></div>
+        {/* Key forces re-render for animation */}
+        <span 
+            key={value} 
+            className={`text-2xl md:text-3xl font-extrabold font-mono leading-none drop-shadow-md animate-tick ${isSeconds ? 'text-yellow-300' : 'text-white'}`}
+        >
+            {value.toString().padStart(2, '0')}
+        </span>
+        <span className="text-[9px] md:text-[10px] uppercase text-gray-300 font-bold mt-1 tracking-wider">{label}</span>
+    </div>
+);
 
 const FlashSale: React.FC<FlashSaleProps> = ({ onProductClick }) => {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
@@ -92,41 +106,50 @@ const FlashSale: React.FC<FlashSaleProps> = ({ onProductClick }) => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (num: number) => num.toString().padStart(2, '0');
-
   if (eventProducts.length === 0) return null; // Hide section if no sales available
 
   return (
     <section id="events" className="container mx-auto px-4 my-8 scroll-mt-28">
-      <div className="bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl p-6 md:p-8 shadow-xl text-white relative overflow-hidden">
+      <style>{`
+        @keyframes tick-pop {
+          0% { transform: scale(1.4); opacity: 0; filter: blur(4px); }
+          100% { transform: scale(1); opacity: 1; filter: blur(0); }
+        }
+        .animate-tick {
+          animation: tick-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+      `}</style>
+
+      <div className="bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl p-6 md:p-8 shadow-xl text-white relative overflow-hidden ring-4 ring-red-100 ring-offset-2">
+        {/* Decorative background elements */}
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-yellow-500 opacity-10 rounded-full blur-3xl mix-blend-overlay"></div>
+
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-6 relative z-10">
+        <div className="flex flex-col lg:flex-row md:items-center justify-between mb-8 gap-6 relative z-10">
           <div className="flex items-center gap-4">
-            <div className="bg-white text-red-600 p-3 rounded-full animate-pulse shadow-lg">
+            <div className="bg-white text-red-600 p-3 rounded-full animate-[pulse_2s_infinite] shadow-lg ring-4 ring-white/20">
                 <Zap fill="currentColor" size={32} />
             </div>
             <div>
-                 <h2 className="text-3xl font-extrabold uppercase tracking-wide italic">Flash Sale</h2>
-                 <p className="text-white/90 mt-1 font-medium">Giá sốc - Deal hời - Số lượng có hạn</p>
+                 <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-wide italic flex items-center gap-2">
+                    Flash Sale
+                 </h2>
+                 <div className="flex items-center gap-2 text-white/90 mt-1 font-medium bg-black/10 px-3 py-1 rounded-full w-fit">
+                    <Timer size={14} className="animate-spin-slow" />
+                    <span>Giá sốc - Deal hời - Số lượng có hạn</span>
+                 </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <span className="font-semibold mr-2 hidden md:block">Kết thúc sau:</span>
-            <div className="bg-black/30 backdrop-blur-md border border-white/20 rounded-lg p-2 min-w-[3.5rem] flex flex-col items-center shadow-inner">
-                <span className="text-2xl font-bold font-mono">{formatTime(timeLeft.hours)}</span>
-                <span className="text-[10px] uppercase text-gray-200">Giờ</span>
-            </div>
-            <span className="font-bold text-xl">:</span>
-            <div className="bg-black/30 backdrop-blur-md border border-white/20 rounded-lg p-2 min-w-[3.5rem] flex flex-col items-center shadow-inner">
-                <span className="text-2xl font-bold font-mono">{formatTime(timeLeft.minutes)}</span>
-                <span className="text-[10px] uppercase text-gray-200">Phút</span>
-            </div>
-            <span className="font-bold text-xl">:</span>
-            <div className="bg-black/30 backdrop-blur-md border border-white/20 rounded-lg p-2 min-w-[3.5rem] flex flex-col items-center shadow-inner">
-                <span className="text-2xl font-bold font-mono text-yellow-300">{formatTime(timeLeft.seconds)}</span>
-                <span className="text-[10px] uppercase text-gray-200">Giây</span>
-            </div>
+          <div className="flex items-center gap-2 self-start lg:self-center bg-white/10 p-2 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <span className="font-semibold mr-2 hidden md:block text-sm uppercase tracking-widest opacity-80 pl-2">Kết thúc sau</span>
+            
+            <TimeBox value={timeLeft.hours} label="Giờ" />
+            <span className="font-bold text-xl md:text-2xl text-white/50 pb-4">:</span>
+            <TimeBox value={timeLeft.minutes} label="Phút" />
+            <span className="font-bold text-xl md:text-2xl text-white/50 pb-4">:</span>
+            <TimeBox value={timeLeft.seconds} label="Giây" isSeconds={true} />
           </div>
         </div>
 
@@ -174,9 +197,11 @@ const FlashSale: React.FC<FlashSaleProps> = ({ onProductClick }) => {
                             </div>
                              {/* Fixed Stock Bar based on real data */}
                              <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                                <div className="bg-red-500 h-full w-[80%] rounded-full"></div>
+                                <div className="bg-red-500 h-full w-[80%] rounded-full animate-[shimmer_2s_infinite] relative overflow-hidden">
+                                    <div className="absolute inset-0 bg-white/30 skew-x-12 -translate-x-full animate-[shimmer_2s_infinite]"></div>
+                                </div>
                             </div>
-                            <span className="text-[10px] text-gray-500 mt-1 block font-medium">Đã bán {product.soldCount || 100}+</span>
+                            <div className="text-[10px] text-gray-500 mt-1 font-medium">Đã bán {product.soldCount || 100}+</div>
                         </div>
                     </div>
                 </div>
@@ -184,7 +209,7 @@ const FlashSale: React.FC<FlashSaleProps> = ({ onProductClick }) => {
         </div>
         
         <div className="mt-8 text-center relative z-10">
-            <button className="inline-flex items-center gap-2 bg-white/20 hover:bg-white hover:text-red-600 text-white border border-white/40 px-6 py-2 rounded-full transition-all font-bold backdrop-blur-sm">
+            <button className="inline-flex items-center gap-2 bg-white/20 hover:bg-white hover:text-red-600 text-white border border-white/40 px-6 py-2 rounded-full transition-all font-bold backdrop-blur-sm shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
                 Xem tất cả deal hot <ArrowRight size={18} />
             </button>
         </div>
