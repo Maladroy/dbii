@@ -158,7 +158,7 @@ function ProductDetailModal({ product, onClose, onOpenContact }: ProductDetailMo
                 className={`shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${activeImage === img ? 'border-blue-600 opacity-100 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
               >
-                <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
+                <img src={img} alt={`Thumbnail ${idx}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
