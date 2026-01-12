@@ -1,5 +1,6 @@
 import { Phone, Tag, Eye, Package } from 'lucide-react';
 import { Product } from '../types';
+import { obscurePrice } from '../utils';
 
 interface ProductCardProps {
     product: Product;
@@ -39,9 +40,9 @@ function ProductCard({ product, onClick, onOpenContact }: ProductCardProps) {
                         {product.tag}
                     </div>
                 )}
-                {discount > 0 && (
+                {(discount > 0 || isCombo) && (
                     <div className={`absolute top-3 ${isCombo ? 'right-auto left-0 top-10' : 'right-3'} bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-md z-10`}>
-                        -{discount}%
+                        {isCombo ? "??%" : `-${discount}%`}
                     </div>
                 )}
                 {/* Hover Overlay */}
@@ -64,13 +65,14 @@ function ProductCard({ product, onClick, onOpenContact }: ProductCardProps) {
                 <div className="mt-auto pt-3 border-t border-gray-50">
                     <div className="flex items-baseline gap-2 mb-4">
                         <span className="text-red-600 font-bold text-lg">
-                            {product.price.toLocaleString('vi-VN')}₫
+                            {isCombo ? obscurePrice(product.price) : product.price.toLocaleString('vi-VN')}₫
                         </span>
                         {product.originalPrice && (
                             <span className="text-gray-400 text-xs line-through decoration-1">
                                 {product.originalPrice.toLocaleString('vi-VN')}₫
                             </span>
                         )}
+
                     </div>
 
                     {/* Action Button */}
@@ -81,7 +83,7 @@ function ProductCard({ product, onClick, onOpenContact }: ProductCardProps) {
                         }}
                         className="w-full text-center bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-transparent transition-all py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2"
                     >
-                        <Phone size={16} /> Liên hệ tư vấn
+                        <Phone size={16} /> {isCombo ? "Nhận báo giá" : "Liên hệ tư vấn"}
                     </button>
                 </div>
             </div>

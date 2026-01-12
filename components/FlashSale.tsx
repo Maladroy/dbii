@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, Eye, Zap, Timer } from 'lucide-react';
 import { PRODUCTS } from '../constants';
 import { Product } from '../types';
+import { obscurePrice } from '../utils';
 
 interface FlashSaleProps {
     onProductClick: (product: Product) => void;
@@ -53,7 +54,11 @@ function FlashSale({ onProductClick }: FlashSaleProps) {
 
                 // Only select products that actually have an original price (factual discount)
                 // And prevent Hidden/Upsale items from appearing in Flash Sale automatically
-                const saleableProducts = PRODUCTS.filter(p => p.originalPrice && p.originalPrice > p.price && !p.isHidden);
+                const saleableProducts = PRODUCTS.filter(p =>
+                    p.originalPrice &&
+                    p.originalPrice > p.price &&
+                    !p.isHidden
+                );
 
                 // Pick random products from the saleable list (max 4)
                 const shuffled = [...saleableProducts].sort(() => 0.5 - Math.random());
@@ -162,9 +167,9 @@ function FlashSale({ onProductClick }: FlashSaleProps) {
                             onClick={() => onProductClick(product)}
                             className="bg-white text-gray-800 rounded-xl overflow-hidden group shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative h-full flex flex-col cursor-pointer"
                         >
-                            {product.discountPercentage && (
+                            {(product.discountPercentage || product.category.toLowerCase().includes('combo')) && (
                                 <div className="absolute top-2 right-2 bg-yellow-400 text-red-700 text-xs font-bold px-2 py-1 rounded-md z-10 shadow-sm animate-bounce">
-                                    -{product.discountPercentage}%
+                                    {product.category.toLowerCase().includes('combo') ? "??%" : `-${product.discountPercentage}%`}
                                 </div>
                             )}
                             <div className="relative aspect-square overflow-hidden bg-gray-100">
@@ -188,13 +193,17 @@ function FlashSale({ onProductClick }: FlashSaleProps) {
                                 <div className="mt-auto pt-2 border-t border-gray-100">
                                     <div className="flex flex-col">
                                         <span className="text-red-600 font-bold text-lg">
-                                            {product.price.toLocaleString('vi-VN')}₫
+                                            {product.category.toLowerCase().includes('combo')
+                                                ? obscurePrice(product.price)
+                                                : product.price.toLocaleString('vi-VN')
+                                            }₫
                                         </span>
                                         {product.originalPrice && (
                                             <span className="text-gray-400 text-xs line-through">
                                                 {product.originalPrice.toLocaleString('vi-VN')}₫
                                             </span>
                                         )}
+
                                     </div>
                                     {/* Fixed Stock Bar based on real data */}
                                     <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">

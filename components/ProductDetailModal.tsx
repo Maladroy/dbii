@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { X, Phone, Check, ZoomIn, Share2, Copy } from 'lucide-react';
 import { Product } from '../types';
+import MarkdownRenderer from './Markdown';
+import { obscurePrice } from '../utils';
 
 interface ProductDetailModalProps {
   product: Product;
@@ -93,6 +95,8 @@ function ProductDetailModal({ product, onClose, onOpenContact }: ProductDetailMo
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
+  const isCombo = product.category.toLowerCase().includes('combo');
+
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -138,9 +142,9 @@ function ProductDetailModal({ product, onClose, onOpenContact }: ProductDetailMo
             )}
 
             {/* Discount Tag */}
-            {calcDiscount > 0 && (
+            {(calcDiscount > 0 || isCombo) && (
               <div className="absolute top-4 left-4 z-10 bg-red-600 text-white font-bold px-3 py-1 rounded-md shadow-md pointer-events-none">
-                -{calcDiscount}%
+                {isCombo ? "??%" : `-${calcDiscount}%`}
               </div>
             )}
           </div>
@@ -169,22 +173,24 @@ function ProductDetailModal({ product, onClose, onOpenContact }: ProductDetailMo
             </h2>
 
             <div className="flex items-end gap-3 mb-6 border-b border-gray-100 pb-6">
+
               <span className="text-3xl font-bold text-red-600">
-                {product.price.toLocaleString('vi-VN')}₫
+                {isCombo ? obscurePrice(product.price) : product.price.toLocaleString('vi-VN')}₫
               </span>
               {product.originalPrice && (
                 <span className="text-lg text-gray-400 line-through mb-1 font-medium">
                   {product.originalPrice.toLocaleString('vi-VN')}₫
                 </span>
               )}
+
             </div>
 
             <div className="space-y-6">
               <div>
                 <h3 className="font-bold text-gray-900 mb-2">Mô tả sản phẩm</h3>
-                <p className="text-gray-600 leading-relaxed text-sm md:text-base">
-                  {product.description || "Đang cập nhật mô tả..."}
-                </p>
+                <div className="text-gray-600 leading-relaxed text-sm md:text-base">
+                  <MarkdownRenderer content={product.description || "Đang cập nhật mô tả..."} />
+                </div>
               </div>
 
               {product.details && (
@@ -195,13 +201,13 @@ function ProductDetailModal({ product, onClose, onOpenContact }: ProductDetailMo
             </div>
           </div>
 
-          <div className="sticky bottom-0 bg-white pt-4 border-t border-gray-100 mt-4 space-y-3">
+          <div className="sticky bottom-0 bg-white pt-4 border-t border-gray-100 mt-4 space-y-3 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)]">
             <button
               onClick={onOpenContact}
               className="w-full bg-blue-700 hover:bg-blue-800 text-white py-3.5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-200 transition-all active:scale-[0.98]"
             >
               <Phone className="animate-pulse" />
-              Liên hệ đặt hàng ngay
+              {isCombo ? "Liên hệ nhận báo giá" : "Liên hệ đặt hàng ngay"}
             </button>
 
             <button
