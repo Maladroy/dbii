@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Search, Menu, X, PhoneCall, ChevronRight } from 'lucide-react';
 import { PRODUCTS } from '../constants';
 import { Product } from '../types';
@@ -17,7 +17,7 @@ const removeAccents = (str: string) => {
         .replace(/Đ/g, 'D');
 };
 
-const Header: React.FC<HeaderProps> = ({ onProductSelect, currentView, onNavigate }) => {
+function Header({ onProductSelect, currentView, onNavigate }: HeaderProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
@@ -147,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect, currentView, onNavigat
 
                         {/* Search Dropdown */}
                         {showDropdown && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden max-h-[400px] overflow-y-auto animate-fade-in z-50">
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden max-h-100 overflow-y-auto animate-fade-in z-50">
                                 {searchResults.length > 0 ? (
                                     <ul>
                                         {searchResults.map(product => (
@@ -194,7 +194,7 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect, currentView, onNavigat
                         </div>
                         <div className="flex flex-col text-xs leading-tight">
                             <span className="opacity-80 font-light">Hotline hỗ trợ</span>
-                            <span className="font-bold text-base text-yellow-300 tracking-wide">0964.186.768</span>
+                            <span className="font-bold text-base text-yellow-300 tracking-wide">0352.88.1369</span>
                         </div>
                     </div>
                 </div>
@@ -328,7 +328,7 @@ const Header: React.FC<HeaderProps> = ({ onProductSelect, currentView, onNavigat
                         <div className="p-5 border-t border-gray-100 bg-gray-50">
                             <div className="flex items-center gap-3 text-blue-800">
                                 <PhoneCall size={20} />
-                                <span className="font-bold text-lg">0964.186.768</span>
+                                <span className="font-bold text-lg">0352.88.1369</span>
                             </div>
                         </div>
                     </div>

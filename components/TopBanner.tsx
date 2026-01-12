@@ -1,7 +1,6 @@
-import React from 'react';
 import { MapPin, Phone } from 'lucide-react';
 
-const TopBanner: React.FC = () => {
+function TopBanner() {
   return (
     <div className="relative bg-white border-b border-gray-200 hidden md:block">
       <div className="container mx-auto px-4 h-10 flex items-center justify-between text-sm text-gray-700">
@@ -17,14 +16,14 @@ const TopBanner: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center">
-            <div className="bg-red-600 text-white px-3 py-1 rounded-full flex items-center shadow-sm">
-                <Phone size={14} className="mr-1" />
-                <span className="font-bold">Hotline: 1900.123.456</span>
-            </div>
+          <div className="bg-red-600 text-white px-3 py-1 rounded-full flex items-center shadow-sm">
+            <Phone size={14} className="mr-1" />
+            <span className="font-bold">Hotline: 1900.123.456</span>
+          </div>
         </div>
       </div>
       {/* Decorative gradient strip representing the flag/banner style in the image */}
-      <div className="h-1 bg-gradient-to-r from-red-600 via-yellow-400 to-red-600"></div>
+      <div className="h-1 bg-linear-to-r from-red-600 via-yellow-400 to-red-600" />
     </div>
   );
 };
