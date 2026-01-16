@@ -240,6 +240,47 @@ const DESC_XA_VAI = `
 3. Lấy quần áo ra và phơi.
 `;
 
+const DESC_NUOC_SUC_MIENG = `
+# NƯỚC SÚC MIỆNG THẢO MỘC DBii PHYTO SMILE
+
+**Giải pháp xanh cho hơi thở thơm mát và răng chắc khỏe từ gốc**
+
+Sự kết hợp hoàn hảo từ các thảo mộc tự nhiên giúp bảo vệ khoang miệng toàn diện, an toàn và lành tính.
+
+---
+
+## 1. Thành phần đột phá & Công dụng
+
+**Phyto Smile** chắt lọc tinh hoa từ **5 thành phần thảo mộc và hoạt chất quý giá**:
+
+- **Lá Neem (Sầu đâu)**: *“Khắc tinh” của vi khuẩn*. Kháng khuẩn mạnh mẽ, giúp tiêu diệt ký sinh trùng, ngăn ngừa sâu răng, chữa viêm lợi và chống chảy máu chân răng hiệu quả.
+- **Bạc hà**: Mang lại cảm giác sảng khoái tức thì. Chứa hoạt chất *Rosmarinic acid* giúp kháng viêm, khử mùi hôi miệng, đồng thời hỗ trợ sát khuẩn đường hô hấp trên.
+- **Cam thảo**: Chứa hơn 300 hợp chất chống viêm và kháng virus. Đặc biệt, hoạt chất *Glycyrrhizin* giúp làm dịu niêm mạc, hỗ trợ lành các vết loét miệng (nhiệt miệng) và bảo vệ vòm họng.
+- **Trà xanh**: Giàu chất chống oxy hóa (*EGCG*) và *Florua tự nhiên*. Giúp kìm hãm vi khuẩn gây mùi, ngăn ngừa sâu răng, bảo vệ nướu và tăng cường độ chắc khỏe cho hệ xương răng.
+- **Xylitol**: Chất tạo ngọt tự nhiên không gây sâu răng. Giúp giảm vi khuẩn *Streptococcus mutans*, ngăn mảng bám và cân bằng độ pH trong khoang miệng.
+
+---
+
+## 2. Lợi ích nổi bật của DBii PHYTO SMILE
+
+- **Làm sạch sâu**: Loại bỏ mảng bám và thức ăn thừa tại các kẽ răng mà bàn chải không chạm tới.
+- **Kháng khuẩn & Chống viêm**: Hỗ trợ điều trị nhiệt miệng, viêm lợi, chảy máu chân răng và giảm sưng nướu.
+- **Khử mùi vượt trội**: Loại bỏ mùi hôi miệng do thực phẩm hoặc vi khuẩn, duy trì hơi thở thơm mát tự nhiên suốt nhiều giờ.
+- **An toàn & Lành tính**: Thành phần từ thảo mộc thiên nhiên, phù hợp cho người muốn chăm sóc răng miệng bền vững, không gây kích ứng niêm mạc.
+- **Bảo vệ toàn diện**: Hỗ trợ ngăn ngừa các bệnh lý đường hô hấp trên nhờ đặc tính kháng khuẩn từ Bạc hà và Cam thảo.
+
+---
+
+## 3. Hướng dẫn sử dụng
+
+- Lấy một lượng vừa đủ (**khoảng 10–15 ml**) súc kỹ trong khoang miệng từ **30–60 giây** rồi nhổ đi.
+- Sử dụng **2–3 lần/ngày** sau khi đánh răng hoặc sau khi ăn.
+
+---
+
+**DBii PHYTO SMILE – Tinh túy thảo mộc, nụ cười tự tin!**
+`;
+
 export const PRODUCTS: Product[] = [
   // --- SINGLE PRODUCTS ---
   {
@@ -314,6 +355,18 @@ export const PRODUCTS: Product[] = [
     description: DESC_XA_VAI,
     details: '',
     soldCount: 1100,
+  },
+  {
+    id: '7',
+    name: 'Nước súc miệng thảo mộc D-bii Phyto Smile (500ml)',
+    price: 165000,
+    originalPrice: 195000,
+    image: '/assets/products/dbii_nuocsucmieng.webp',
+    images: ['/assets/products/dbii_nuocsucmieng_1.webp', '/assets/products/dbii_nuocsucmieng_2.webp', '/assets/products/dbii_nuocsucmieng_4.webp', '/assets/products/dbii_nuocsucmieng_5.webp'],
+    category: 'Chăm sóc răng miệng',
+    description: DESC_NUOC_SUC_MIENG,
+    details: '',
+    soldCount: 750,
   },
 
   // --- PUBLIC COMBOS (c1 - c4) ---
