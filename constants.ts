@@ -362,7 +362,7 @@ export const PRODUCTS: Product[] = [
     price: 165000,
     originalPrice: 195000,
     image: '/assets/products/dbii_nuocsucmieng.webp',
-    images: ['/assets/products/dbii_nuocsucmieng_1.webp', '/assets/products/dbii_nuocsucmieng_2.webp', '/assets/products/dbii_nuocsucmieng_4.webp', '/assets/products/dbii_nuocsucmieng_5.webp'],
+    images: ['/assets/products/dbii_nuocsucmieng_7.webp', '/assets/products/dbii_nuocsucmieng_1.webp', '/assets/products/dbii_nuocsucmieng_2.webp', '/assets/products/dbii_nuocsucmieng_4.webp', '/assets/products/dbii_nuocsucmieng_6.webp', '/assets/products/dbii_nuocsucmieng_5.webp'],
     category: 'Chăm sóc răng miệng',
     description: DESC_NUOC_SUC_MIENG,
     details: '',
